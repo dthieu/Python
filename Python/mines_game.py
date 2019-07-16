@@ -15,6 +15,13 @@ DEFAULT_COL  = 9
 DEFAULT_MINE = 9
 MINE = 100
 
+class Cell(Button):
+	"""docstring for Cell"""
+	def __init__(self, **kwargs):
+		super(Cell, self).__init__(**kwargs)
+		self.num = 0
+		self.is_mine = 0
+
 class Board(GridLayout):
 	"""docstring for Board"""
 	
@@ -88,6 +95,7 @@ class Board(GridLayout):
 					tmp_r[i+1][j+1] = get_num_of_mine(tmp_r, i+1, j+1)
 			
 		ret = []
+		print(tmp_r)
 		for e in tmp_r[1:-1]:
 			ret.append(e[1:cols+1].tolist())
 		return ret
@@ -106,10 +114,20 @@ class Board(GridLayout):
 			board = self.genMines(irow, icol, imine)
 			for i in range(irow):
 				for j in range(icol):
-					btn = Button(text=str(board[i][j]))
+					btn = Cell()
+					btn.num = board[i][j]
+					if (board[i][j] == MINE):
+						btn.is_mine = 1
+					btn.bind(on_press=self.open_cell)
 					self.board_layout.add_widget(btn)
 			self.add_widget(self.board_layout)
 
+	def open_cell(self, instance):
+		if instance.is_mine == 1:
+			instance.text = "BOM"
+		else:
+			instance.text = str(instance.num)
+			instance.disabled = True
 
 class SimpleKivy(App):
 	"""docstring for SimpleKivy"""
