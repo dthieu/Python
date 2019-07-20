@@ -1,6 +1,6 @@
 
 '''
-1. Get 1 differ in 3 number:
+1. Get differ number in 3 numbers:
 	>>> n1 ^ n2 ^ n3
 
 2. Odd and even number:
