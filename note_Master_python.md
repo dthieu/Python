@@ -237,6 +237,105 @@ def check_loop(n):
 result = check_loop(10000)
 print(result)
 ```
+## VI. Error handling
+Built-in Error Exceptions:\
+Refs: https://docs.python.org/3/library/exceptions.html \
+Some common exceptions:
+* ZerorDivisionError: Division by zero
+* KeyError
+* IndexError
+* NameError
+* ValueError
+
+```python
+# Error Handling Syntax
+try:
+  # TODO: Function / peace of code may get error
+  # We can choose raise an error here!
+  raise ValueError('Hey you got an error!') # print our message in Value Error exception
+  # raise Exception('Hey you got an error!')
+except ValueError: # Can use some common error at here
+  # TODO: What need to handling if error is raised 
+except KeyError as err:
+  # TODO: another exception
+  # use continue to jump out to finally
+except (KeyError, ValueError) as err: # Combine exceptions, only exception will be choosen
+  # TODO: another exception
+else:
+  # TODO: Maybe invokes break in case while loop or print somthing in case no error
+finally:
+  # TODO: After all exceptions, else... are executed, 'finally' will be done!
+  # This is like an information to inform that exception is executed 
+  # This useful in case we want to log / record errors example login error 
+```
+Note that we only have 1 exception will be executed!
+
+## VII. Generators
+```python
+class MyGen():
+  curr = 0
+  def __init__(self, first, last):
+    self.first = first
+    self.last = last
+  
+  def __iter__(self):
+    return self
+  
+  def __next__(self):
+    if self.curr < self.last:
+      num = MyGen.curr
+      MyGen.curr += 1
+      return num
+    raise StopIteration # there is no element
+
+my_it = MyGen(0, 100)
+for i in my_it:
+  print(f"i = {i}")
+```
+
+## VIII. Module
+Built-in module: https://docs.python.org/3/py-modindex.html \
+This link contains all modules which are available when we install Python3 such as random, calendar, gzip,...
+
+### Useful module
+```python
+from collections import Counter, defaultdict, OrderedDict
+
+arr = [1, 2, 7, 4, 3, 5, 8, 9, 0, 1, 3, 2]
+print(Counter(arr))
+# Output: Counter({1: 2, 2: 2, 3: 2, 7: 1, 4: 1, 5: 1, 8: 1, 9: 1, 0: 1})
+
+mydic = defaultdict(int, {'a': 1, 'b': 2})
+print(mydic['c']) 
+# Output: 0 # there is no 'c'
+
+mydic1 = defaultdict(lambda: 'does not exist!', {'a': 1, 'b': 2})
+print(mydic1['c']) 
+# Output: does not exist! # default for non-existent elements
+
+mydic2 = OrderedDict()
+mydic2['a'] = 1
+mydic2['b'] = 2
+
+mydic3 = OrderedDict()
+mydic3['b'] = 2
+mydic3['a'] = 1
+
+print(mydic2 == mydic2)
+# Output: False # because this is Ordered dictionary
+# True when they are common dictionary { ... }
+
+from array import array
+
+myarr = array('i', [1, 2, 3])
+print(myarr)
+# Output: array('i', [1, 2, 3]) # i = int
+# We can search it in built-in modules part
+print(myarr[0])
+# Output: 1
+
+```
+Refs: https://softwaremaniacs.org/blog/2020/02/05/dicts-ordered/en/
 
 
 
