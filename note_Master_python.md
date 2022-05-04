@@ -294,8 +294,9 @@ for i in my_it:
 ```
 
 ## VIII. Module
-Built-in module: https://docs.python.org/3/py-modindex.html \
-This link contains all modules which are available when we install Python3 such as random, calendar, gzip,...
+* Refs: https://softwaremaniacs.org/blog/2020/02/05/dicts-ordered/en/ \
+* Built-in module: https://docs.python.org/3/py-modindex.html \
+* This link contains all modules which are available when we install Python3 such as random, calendar, gzip,...
 
 ### Useful module
 ```python
@@ -333,10 +334,78 @@ print(myarr)
 # We can search it in built-in modules part
 print(myarr[0])
 # Output: 1
-
 ```
-Refs: https://softwaremaniacs.org/blog/2020/02/05/dicts-ordered/en/
+## IX. Debug code
+pdb (Python Debugger):
+* is a built-in module,
+* Interact with the code
+* Using:
+```python
+import pdb
+pdb.set_trace() # call this at wherever you want to tracing
+```
+* pdb help
+```
+(Pdb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF    c          d        h         list      q        rv       undisplay
+a      cl         debug    help      ll        quit     s        unt
+alias  clear      disable  ignore    longlist  r        source   until
+args   commands   display  interact  n         restart  step     up
+b      condition  down     j         next      return   tbreak   w
+break  cont       enable   jump      p         retval   u        whatis
+bt     continue   exit     l         pp        run      unalias  where
+
+Miscellaneous help topics:
+==========================
+exec  pdb
+(Pdb) list
+(Pdb) help list
+...
+```
+Common pdb commands:
+* (Pdb) step : jump into line which is set trace function
+* (Pdb) next : next line of code
+* (Pdb) continue : continue debug
+* (Pdb) break : break current loop
+* (Pdb) w : show the context of current line of code
+* (Pdb) a : show all variables
 
 
+## X. FILE
+* Mode:
+  * a : append
+  * w : write
+  * r : read 
+### 1. Read/write file
+#### 1.1 Read
+* Method:
+  * <code>my_file.read()</code>
+  * <code>my_file.readlines()</code>
+* 1st method
+```python
+f = open("test.txt", 'a')
+f.readlines()
+f.read()
+f.close()
+```
+* 2nd method: using <code>with</code> keyword. <b>We don't need to invoke close file method.</b>
+```python
+try:
+  with open("test.txt", mode='a') as f:
+    print(f.readlines())
+except FileNotFoundError as err:
+  print("File does not exist!")
+  raise err
+except IOError as err: # read/write/open/IO error
+  print("IO error!")
+  raise err
+```
+#### 1.2 Write
+* Method:
+  * <code>my_file.read()</code>
 
+## XI. Regular Expressions
 
