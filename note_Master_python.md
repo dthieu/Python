@@ -408,4 +408,82 @@ except IOError as err: # read/write/open/IO error
   * <code>my_file.read()</code>
 
 ## XI. Regular Expressions
+<u>Refs:</u>: 
+* Learn more detail about regex: https://www.w3schools.com/python/python_regex.asp 
+* Analysis, Create and Debug regex syntax: https://regex101.com/
+* Practice regex: https://regexone.com/
+### <u>Example 1:</u> Email validation
+```python
+import re 
+pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$)")
+email1 = "hieudang95@gmail.com"
+email2 = "Hieudang95"
+
+result1 = pattern.search(email1)
+print(result1)
+# <re.Match object; span=(0, 20), match='hieudang95@gmail.com'>
+# 'span' is matching position.
+
+result2 = pattern.search(email2)
+print(result2)
+# None
+```
+### <u>Example 2:</u> Password validation
+* At least 8 char long
+* Contain any sort letters, number, special char $#%@
+* Has to end with a number
+```python
+import re
+pattern2 = re.compile(r"[a-zA-Z0-9$#%@]{8,}\d")
+
+passwd1 = "LKasjdlka@#asd1"
+print(pattern2.fullmatch(passwd1))
+# <re.Match object; span=(0, 15), match='LKasjdlka@#asd1'>
+
+passwd2 = "LKasjd"
+print(pattern2.fullmatch(passwd2))
+# None
+```
+
+## XII. Testing in Python
+<u>Example:</u>
+```python
+import unittest
+
+def add(num1, num2):
+    return num1 - num2
+
+class TestMain(unittest.TestCase):
+    def test_add_1(self):
+        test_param = [10, 10]
+        result = add(test_param[0], test_param[1])
+        self.assertEqual(result, 20)
+    
+    def test_add_2(self):
+        test_param = [6, 10]
+        result = add(test_param[0], test_param[1])
+        self.assertEqual(result, 16)
+
+unittest.main()
+# ======================================================================
+# FAIL: test_add_1 (__main__.TestMain)
+# ----------------------------------------------------------------------
+# Traceback (most recent call last):
+#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 81, in test_add_1
+#     self.assertEqual(result, 20)
+# AssertionError: 0 != 20
+# 
+# ======================================================================
+# FAIL: test_add_2 (__main__.TestMain)
+# ----------------------------------------------------------------------
+# Traceback (most recent call last):
+#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 86, in test_add_2
+#     self.assertEqual(result, 16)
+# AssertionError: -4 != 16
+# 
+# ----------------------------------------------------------------------
+# Ran 2 tests in 0.001s
+# 
+# FAILED (failures=2)
+```
 
