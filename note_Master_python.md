@@ -465,19 +465,26 @@ class TestMain(unittest.TestCase):
         self.assertEqual(result, 16)
 
 unittest.main()
+# Setting up for each test case!
+# Cleaning up each test case!
+# FSetting up for each test case!
+# Cleaning up each test case!
+# F
 # ======================================================================
 # FAIL: test_add_1 (__main__.TestMain)
+# You can comment here! Ex: testing with input: 10 and 10
 # ----------------------------------------------------------------------
 # Traceback (most recent call last):
-#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 81, in test_add_1
+#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 15, in test_add_1
 #     self.assertEqual(result, 20)
 # AssertionError: 0 != 20
 # 
 # ======================================================================
 # FAIL: test_add_2 (__main__.TestMain)
+# testing with input: 6 and 10
 # ----------------------------------------------------------------------
 # Traceback (most recent call last):
-#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 86, in test_add_2
+#   File "c:\Users\dthie\OneDrive\Documents\ex.py", line 21, in test_add_2
 #     self.assertEqual(result, 16)
 # AssertionError: -4 != 16
 # 
