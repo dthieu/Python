@@ -454,15 +454,26 @@ def add(num1, num2):
     return num1 - num2
 
 class TestMain(unittest.TestCase):
+
+    def setUp(self) -> None:
+        print("Setting up for each test case!")
+
     def test_add_1(self):
+        '''You can comment here! Ex: testing with input: 10 and 10'''
         test_param = [10, 10]
         result = add(test_param[0], test_param[1])
         self.assertEqual(result, 20)
     
     def test_add_2(self):
+        '''testing with input: 6 and 10'''
         test_param = [6, 10]
         result = add(test_param[0], test_param[1])
         self.assertEqual(result, 16)
+    
+    def tearDown(self) -> None:
+        print("Cleaning up each test case!")
+
+unittest.main()
 
 unittest.main()
 # Setting up for each test case!
