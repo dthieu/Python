@@ -454,26 +454,15 @@ def add(num1, num2):
     return num1 - num2
 
 class TestMain(unittest.TestCase):
-
-    def setUp(self) -> None:
-        print("Setting up for each test case!")
-
     def test_add_1(self):
-        '''You can comment here! Ex: testing with input: 10 and 10'''
         test_param = [10, 10]
         result = add(test_param[0], test_param[1])
         self.assertEqual(result, 20)
     
     def test_add_2(self):
-        '''testing with input: 6 and 10'''
         test_param = [6, 10]
         result = add(test_param[0], test_param[1])
         self.assertEqual(result, 16)
-    
-    def tearDown(self) -> None:
-        print("Cleaning up each test case!")
-
-unittest.main()
 
 unittest.main()
 # Setting up for each test case!
@@ -504,4 +493,199 @@ unittest.main()
 # 
 # FAILED (failures=2)
 ```
+
+## XIII. Common libraries and tools
+* Library:
+  | Name   | Function |
+  |--------|---------------------|
+  | pyPDF2 | pdf file processing |
+  | Pillow | Image processing |
+  | OpenCV | Image processing |
+  | smtplib | Send email message |
+  | hashlib | Hashing (encode) |
+* Tools:
+  * http://mailchimp.com : send mail
+  *   
+### 1. Send mail
+Quick Note: Google Security Updates
+
+Heads up! If you are following along (and using google Gmail account), a recent Google update to their terms and features means you have to do an extra step to be able to send emails. Otherwise, you will see this error:
+```error
+raise SMTPAuthenticationError(code, resp) smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5 .7.8 https://support.google.com/mail/?p=BadCredentials n24sm10301669pjq.51 - gsmtp') 
+```
+In the case that you are sending emails through GMAIL,  just go to your account(gmail) -> Account setting -> Scroll to the bottom of the page and you see Less Secured Apps tab ,now you just have to turn that feature ON. for more info visit this:
+
+Links Less Secured Apps : https://support.google.com/accounts/answer/6010255 \
+Third party sites & apps: https://support.google.com/accounts/answer/3466521
+
+The reason that Google blocks this is because they do not trust your "app". Google states:
+Less secure apps & your Google Account: If an app or site doesn’t meet our security standards, Google might block anyone who’s trying to sign in to your account from it. Less secure apps can make it easier for hackers to get in to your account, so blocking sign-ins from these apps helps keep your account safe.
+
+I recommend turning that feature back OFF once done experimenting with email in the next video since it is an extra security feature for your gmail account. 
+
+### 2. Hashing
+Encode a string for protecting data, we can use md5, sha1, sha256,...
+```python
+import hashlib
+
+my_psw = "Chayngaydi123"
+
+print(hashlib.sha1(my_psw.encode('utf-8')).hexdigest())
+# Output: 66b6c14a2fae0cdf691f7ead06543a7094d911e6
+```
+
+Sample project
+```python
+# PASSWORD CHECKER
+#You will not be able to run this file here and will need to copy it onto your computer and run it on your machine. 
+#You will also need to make sure you have installed the requests module from PyPi (pip install)
+import requests
+import hashlib
+import sys
+
+def request_api_data(query_char):
+  url = 'https://api.pwnedpasswords.com/range/' + query_char
+  res = requests.get(url)
+  if res.status_code != 200:
+    raise RuntimeError(f'Error fetching: {res.status_code}, check the api and try again')
+  return res
+
+def get_password_leaks_count(hashes, hash_to_check):
+  hashes = (line.split(':') for line in hashes.text.splitlines())
+  for h, count in hashes:
+    if h == hash_to_check:
+      return count
+  return 0
+
+def pwned_api_check(password):
+  sha1password = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+  first5_char, tail = sha1password[:5], sha1password[5:]
+  response = request_api_data(first5_char)
+  return get_password_leaks_count(response, tail)
+
+def main(args):
+  for password in args:
+    count = pwned_api_check(password)
+    if count:
+      print(f'{password} was found {count} times... you should probably change your password!')
+    else:
+      print(f'{password} was NOT found. Carry on!')
+  return 'done!'
+
+if __name__ == '__main__':
+  sys.exit(main(sys.argv[1:]))
+```
+
+
+### 3. Tweeter API
+https://www.twilio.com/docs
+
+IN CASE YOU WANT TO USE TWITTER API v2, just using below code:
+```python
+    # pip install tweepy
+    import tweepy
+     
+    # config.py : where I keep my keys as constants
+    import config
+     
+     
+    def about_me(client: tweepy.Client) -> None:
+        """Print information about the client's user."""
+        # The `public_metrics` addition will give me my followers count, among other things
+        me = client.get_me(user_fields=["public_metrics"])
+        print(f"My name: {me.data.name}")
+        print(f"My handle: @{me.data.username}")
+        print(f"My followers count: {me.data.public_metrics['followers_count']}")
+     
+     
+    def get_ztm_tweets(client: tweepy.Client) -> list[tweepy.Tweet]:
+        """Return a list of latest ZTM tweets"""
+        ztm = client.get_user(username="zerotomasteryio")
+        response = client.get_users_tweets(ztm.data.id)
+        return response.data
+     
+     
+    if __name__ == "__main__":
+        client = tweepy.Client(
+            bearer_token=config.BEARER_TOKEN,
+            consumer_key=config.API_KEY,
+            consumer_secret=config.API_SECRET,
+            access_token=config.ACCESS_TOKEN,
+            access_token_secret=config.ACCESS_SECRET,
+        )
+        print("=== About Me ===")
+        about_me(client)
+        print()
+        print("=== ZTM Tweets ===")
+        for tweet in get_ztm_tweets(client):
+            print(tweet, end="\n\n")
+```
+In order to get all the keys, you need to sign up at https://developer.twitter.com/ and create an app. Go to your newly created app, and in the center screen you'll see two tabs: "Settings" and "Keys and tokens". Under "Settings", click "Edit" in the "User authentication settings" box, choose OAuth 1.0a and give https://example.com as a redirect and personal website. In the "Keys and tokens" tab, generate all keys. You need 5 in total: bearer token, API key, API key secret, access token, access token secret. After that you should be good to go.
+
+To interact with API, we need tweepy:
+```python
+pip3 install tweepy==3.8
+```
+
+Example:
+```python
+#You will need to PIP INSTALL tweepy for this to work and also create a twitter API. Run this on your own machine, not in this Repl. 
+import tweepy
+import time
+
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tweepy.API(auth)
+
+user = api.me()
+print (user.name) #prints your name.
+print (user.screen_name)
+print (user.followers_count)
+
+search = "zerotomastery"
+numberOfTweets = 2
+
+def limit_handle(cursor):
+  while True:
+    try:
+      yield cursor.next()
+    except tweepy.RateLimitError:
+      time.sleep(1000)
+
+#Be nice to your followers. Follow everyone!
+for follower in limit_handle(tweepy.Cursor(api.followers).items()):
+  if follower.name == 'Usernamehere':
+    print(follower.name)
+    follower.follow()
+
+
+# Be a narcisist and love your own tweets. or retweet anything with a keyword!
+for tweet in tweepy.Cursor(api.search, search).items(numberOfTweets):
+    try:
+        tweet.favorite()
+        print('Retweeted the tweet')
+    except tweepy.TweepError as e:
+        print(e.reason)
+    except StopIteration:
+        break
+```
+
+## XIV. Scrapping Data
+Check allow and disallow by check robots.txt of website. \
+Example: https://sharewareonsale.com/robots.txt
+```
+User-agent: *
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-admin/
+
+Sitemap: https://sharewareonsale.com/sitemap.xml
+Sitemap: https://sharewareonsale.com/sitemap.rss
+```
+Common library for scrapping:
+* Beautiful Soup
+  * Document: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
