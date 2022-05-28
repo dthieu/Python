@@ -1,3 +1,7 @@
+# Section 1: Introduction
+# Section 2: Python introduction
+# Section 3: Python basic
+# Section 4: Python basic II
 ## I. Arguments  *args , **kwargs, sys.argv
 ### 1. args: any input parameters
 ```python
@@ -71,13 +75,15 @@ def change_global_var():
   inner() # value of b will change to 5
   
 ```
-## IV. PEP 8 – Style Guide for Python Code
+# Section 5: Development environment
+## I. PEP 8 – Style Guide for Python Code
 <u>Link</u>: [PEP 8 Python](https://peps.python.org/pep-0008/)
-## V. OOP
-### 1 .Encapsulation
-### 2. Abstraction
+
+# Section 6: Advanced Python: Object Oriented Programming
+## 1 .Encapsulation
+## 2. Abstraction
 Don't care about how method is implemented. ex: arr.append(1)
-### 3. Inheritance
+## 3. Inheritance
 Check instance, we can use builtin funtion <code>isinstance</code> \
 ex: <code>print(isinstance(newIns, Animal)) # check newIns whether is Animal instance or not, return value is bool value</code> \
 All objects is inheritanced from <code>object</code>, that is also a base class
@@ -99,9 +105,9 @@ Ex:
 print(D.mro())
 # Output: [<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>]
 ```
-### 4. Polymorphism
+## 4. Polymorphism
 
-### 5. <code>@classmethod</code> and <code>@staticmethod</code>
+## 5. <code>@classmethod</code> and <code>@staticmethod</code>
 So we would use something like <b>static method</b> where we don't care \
 anything about the class state, a class state is something like these.\
 We don't care about the attributes, really.
@@ -194,7 +200,17 @@ my_pets.walk()
   my_toy = Toy("Blue")
   my_toy() # Output: Calling!
 ```
-### 6. Decorator
+# Section 7: Advanced Python: Functional Programming
+## map()
+## filter()
+## zip()
+## reduce()
+## Lambda Expression
+## List comprehensions
+## Set and Dictionary comprehension
+
+# Section 8: Advanced Python: Decorators
+## 1. Decorator
 Using for decorating one function. \
 <u>Example 1:</u>
 ```python
@@ -237,7 +253,8 @@ def check_loop(n):
 result = check_loop(10000)
 print(result)
 ```
-## VI. Error handling
+
+# Section 9: Advanced Python: Error handling
 Built-in Error Exceptions:\
 Refs: https://docs.python.org/3/library/exceptions.html \
 Some common exceptions:
@@ -270,7 +287,7 @@ finally:
 ```
 Note that we only have 1 exception will be executed!
 
-## VII. Generators
+# Section 10: Advanced Python: Generators
 ```python
 class MyGen():
   curr = 0
@@ -293,7 +310,8 @@ for i in my_it:
   print(f"i = {i}")
 ```
 
-## VIII. Module
+
+# Section 11: Modules
 * Refs: https://softwaremaniacs.org/blog/2020/02/05/dicts-ordered/en/ \
 * Built-in module: https://docs.python.org/3/py-modindex.html \
 * This link contains all modules which are available when we install Python3 such as random, calendar, gzip,...
@@ -335,7 +353,7 @@ print(myarr)
 print(myarr[0])
 # Output: 1
 ```
-## IX. Debug code
+# Section 12: Debugging in Python
 pdb (Python Debugger):
 * is a built-in module,
 * Interact with the code
@@ -374,7 +392,7 @@ Common pdb commands:
 * (Pdb) a : show all variables
 
 
-## X. FILE
+# Section 13: File I/O
 * Mode:
   * a : append
   * w : write
@@ -407,7 +425,7 @@ except IOError as err: # read/write/open/IO error
 * Method:
   * <code>my_file.read()</code>
 
-## XI. Regular Expressions
+# Section 14: Regular Expressions
 <u>Refs:</u>: 
 * Learn more detail about regex: https://www.w3schools.com/python/python_regex.asp 
 * Analysis, Create and Debug regex syntax: https://regex101.com/
@@ -445,7 +463,7 @@ print(pattern2.fullmatch(passwd2))
 # None
 ```
 
-## XII. Testing in Python
+# Section 15: Testing in Python
 <u>Example:</u>
 ```python
 import unittest
@@ -493,8 +511,12 @@ unittest.main()
 # 
 # FAILED (failures=2)
 ```
+# Section 16: Carrer Of A Python Developer
+Some common carrer paths + needed knowledge can be found at: \
+https://zerotomastery.io/career-paths/
 
-## XIII. Common libraries and tools
+# Section 17: Scripting with Python
+## 1. Common libraries and tools
 * Library:
   | Name   | Function |
   |--------|---------------------|
@@ -506,7 +528,7 @@ unittest.main()
 * Tools:
   * http://mailchimp.com : send mail
   *   
-### 1. Send mail
+## 2. Send mail
 Quick Note: Google Security Updates
 
 Heads up! If you are following along (and using google Gmail account), a recent Google update to their terms and features means you have to do an extra step to be able to send emails. Otherwise, you will see this error:
@@ -523,7 +545,7 @@ Less secure apps & your Google Account: If an app or site doesn’t meet our sec
 
 I recommend turning that feature back OFF once done experimenting with email in the next video since it is an extra security feature for your gmail account. 
 
-### 2. Hashing
+## 3. Hashing
 Encode a string for protecting data, we can use md5, sha1, sha256,...
 ```python
 import hashlib
@@ -674,8 +696,8 @@ for tweet in tweepy.Cursor(api.search, search).items(numberOfTweets):
         break
 ```
 
-## XIV. Scrapping Data
-Check allow and disallow by check robots.txt of website. \
+# Section 18: Scrapping Data
+Check "allow" and "disallow" by checking robots.txt of website. \
 Example: https://sharewareonsale.com/robots.txt
 ```
 User-agent: *
@@ -688,4 +710,11 @@ Sitemap: https://sharewareonsale.com/sitemap.rss
 Common library for scrapping:
 * Beautiful Soup
   * Document: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+* Scrapy
+  * Document: https://docs.scrapy.org/en/latest/intro/tutorial.html
+
+# Section 19: Web development
+
+
+
 
