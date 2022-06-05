@@ -714,7 +714,202 @@ Common library for scrapping:
   * Document: https://docs.scrapy.org/en/latest/intro/tutorial.html
 
 # Section 19: Web development
+Flask 
+```python
+from flask import Flask, render_template
+app = Flask(__name__)
+print(__name__)
+
+@app.route('/')
+def hello_world():
+    # return 'Hello World'
+    return render_template('index.html') # Using html file in templates/ folder. 
+                                         # If you don't create templates folder, 
+                                         # the server cannot find this index.html file and an error will be raised "inja2.exceptions.TemplateNotFound: index.html"
+
+@app.route('/page1')
+def doHello():
+    return 'Wellcome to new world'
+
+@app.route('/about.html')
+def about():
+    return render_template("about.html")
+```
+Powershell script for run this file:
+```powershell
+Write-Host "Server is running..."
+$env:FLASK_APP="server.py"
+# Linux command: export FLASK_APP=server.py
+
+# Set debug mode
+$env:FLASK_ENV="development"
+# Linux command: export FLASK_ENV=development
+
+python -m flask run
+# or just type: $ flask run
+```
+Save this script as <code>run.ps1</code> and execute by <code>. run.ps1</code>
+
+## Insert icon for web page
+Refs: https://flask.palletsprojects.com/en/1.1.x/patterns/favicon/ 
+```html
+<!-- Icon for web page, url_for is a flask python function, static is folder contains *.ico file-->
+<!-- from flask import url_for: using it in python code -->
+<!-- {{ }} the code in this pair will be executed -->
+<link rel="shortcut icon" href="{{ url_for('static', filename='my_ico.ico') }}"> 
+```
+## URL parameter
+Refs: https://flask.palletsprojects.com/en/1.1.x/quickstart/#variable-rules \
+With this function of Flask lib, we can customize the url link
+```python
+from markupsafe import escape
+
+@app.route('/user/<username>') # Pass username into function
+def show_user_profile(username):
+    # show the user profile for that user
+    return 'User %s' % escape(username)
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return 'Post %d' % post_id
+
+@app.route('/path/<path:subpath>')
+def show_subpath(subpath):
+    # show the subpath after /path/
+    return 'Subpath %s' % escape(subpath)
+```
+Converter types:
+| Type   | Function |
+|--------|---------------------|
+| string|(default) accepts any text without a slash|
+| int|accepts positive integers |
+| float|accepts positive floating point values|
+| path |like string but also accepts slashes|
+| uuid | accepts UUID strings|
+
+### MIME types (IANA media types)
+A media type (also known as a <b>Multipurpose Internet Mail Extensions</b> or MIME type) indicates the nature and format of a document, file, or assortment of bytes. MIME types are defined and standardized in IETF's RFC 6838.
+
+The Internet Assigned Numbers Authority (IANA) is responsible for all official MIME types, and you can find the most up-to-date and complete list at their Media Types page.
+
+Refs:
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+* Fun website: https://robohash.org/
+#### 1. Structure of a MIME type
+```
+type/subtype
+```
+#### 2. Important MIME types for Web developers:
+* text/plain
+* text/css
+* text/html
+* text/javascript
+* application/octet-stream: unknown binary file
+
+### Website template
+<u>LINKs:</u>
+* http://www.mashup-template.com/templates.html
+* https://www.creative-tim.com/bootstrap-themes/ui-kit?direction=asc&sort=price
+* https://html5up.net/
+
+Sample project:
+```python
+from dataclasses import dataclass
+from http import server
+from flask import Flask, render_template, url_for, request, redirect
+# render_template: render a web page from html file
+# request: for check post or get method (request.method == "GET | POST")
+# redirect: navigation destination webpage ex: redirect("Goodbye.html")
+import csv
+
+DATABASE_FILE_PATH = "database.csv"
+FIELD_NAME = ['email', 'subject', 'message']
+
+app = Flask(__name__)
+print(__name__)
+
+@app.route('/')
+def my_root():
+    return render_template('index.html')
+
+# @app.route('/index.html')
+# def other():
+#     return render_template('index.html')
+
+# @app.route('/home.html')
+# def my_home():
+#     return render_template('index.html')
+
+# ...
+
+# Instead write a lot of function as above, just using string:page_name
+# It will call corressponding web page html
+@app.route('/<string:page_name>')
+def my_page(page_name):
+    return render_template(page_name)
 
 
+def write_to_csv(data):
+    with open(DATABASE_FILE_PATH, 'a', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=FIELD_NAME)
+        writer.writerow(data)
+        
+@app.route('/submit_form', methods=['POST', 'GET'])
+def submit_form():
+    if request.method == 'POST':
+        try:
+            data = request.form.to_dict() # get input from browser (email, subject, message)
+            print("Data: ", data)
+            write_to_csv(data)
+            return redirect("/submitted.html")
+        except:
+            return "Did not save to database!"
+    else:
+        return "Something went wrong. Please try again!"
+```
+```html
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+      <form action="submit_form" method="post" class="reveal-content"> <!-- Here we can choose action post or get, coressponding submit form sever function -->
+        <div class="row">
+          <div class="col-md-7">
+            <div class="form-group">
+              <input name="email" type="email" class="form-control" id="email" placeholder="Email"> <!--Here: name="email" will be passed into submit_form function -->
+            </div>
+            <div class="form-group">
+              <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject"> <!--Here: name="subject" will be passed into submit_form function -->
+            </div>
+            <div class="form-group">
+              <textarea name="message" class="form-control" rows="5" placeholder="Enter your message"></textarea> <!--Here: name="message" will be passed into submit_form function -->
+            </div>
+            <button type="submit" class="btn btn-default btn-lg">Send</button>
+          </div>
+```
+### Host website at https://www.pythonanywhere.com
+1. Upload source code to Github
+2. Access https://www.pythonanywhere.com -> Choose free account
+   1. Dashboard -> Bash -> Clone flask source code
+   2. Create virtual environment (Using Bash console) 
+      1. Create virtual environment:
+      ```bash
+      cd <to flask project>
+      mkvirtualenv myvirtualenv --python=/usr/bin/python3.9 # optional
+      # Install python package for virtual environment ex flask
+      pip install flask
+      workon myvirtualenv # active virtual env
+      ```
+   3. Update source code path at https://www.pythonanywhere.com/user/<user_acc>/webapps/#tab_id_<user_acc>_pythonanywhere_com
+   4. Go to https://www.pythonanywhere.com/user/<user_acc>/files/var/www/<user_acc>_pythonanywhere_com_wsgi.py?edit
+   5. Only keep FLASK part and edit code as below:
+   ```python
+    import sys
 
+    path = '/home/<user_acc>/<website>/'
+    if path not in sys.path:
+        sys.path.append(path)
 
+    from <name_py_file_server> import app as application  # noqa
+   ```
+   6. Open Web tab -> Press Reload <user_acc>.pythonanywhere.com
+   7. Done! You can check <user_acc>.pythonanywhere.com on your browser ^_^ 
