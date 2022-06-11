@@ -76,6 +76,14 @@ def change_global_var():
   
 ```
 # Section 5: Development environment
+Virtual environment:
+```bash
+$ cd <your_prj_folder>
+$ python3 -m venv ./
+$ source <your_prj_folder>/bin/activate # Linux
+$ .\<your_prj_folder>\Scripts\Activate.ps1 # Windows powershell 
+$ <your_prj_folder>\Scripts\activate.bat # or Windows batch script
+```
 ## I. PEP 8 – Style Guide for Python Code
 <u>Link</u>: [PEP 8 Python](https://peps.python.org/pep-0008/)
 
@@ -913,3 +921,141 @@ def submit_form():
    ```
    6. Open Web tab -> Press Reload <user_acc>.pythonanywhere.com
    7. Done! You can check <user_acc>.pythonanywhere.com on your browser ^_^ 
+
+# Section 20: Automation / Testing
+## Selenium
+* https://demo.seleniumeasy.com/
+* https://demo.seleniumeasy.com/basic-first-form-demo.html
+* https://www.seleniumeasy.com/
+* http://allselenium.info/python-selenium-commands-cheat-sheet-frequently-used/ <-- good example for beginner / reference
+* https://selenium-python.readthedocs.io/
+
+```python
+from selenium import webdriver
+
+# Load auto tool
+chrome_driver = webdriver.Chrome(r"D:/HIEU/PYTHON_WORLD/automation testing/chromedriver.exe")
+
+# Open website
+chrome_driver.get("https://demo.seleniumeasy.com/basic-first-form-demo.html")
+
+# 1. Find user message
+user_mess = chrome_driver.find_element_by_id("user-message")
+# 2. Clear all input if any
+user_mess.clear()
+# 3. Send input "Hello World!"
+MESS = "Hello World!"
+user_mess.send_keys(MESS)
+# 4. Find and Click Show Message button
+show_mess = chrome_driver.find_element_by_css_selector("#get-input > .btn")
+# show_mess = chrome_driver.find_element_by_class_name("btn-default") # or using this
+show_mess.click()
+# 5. Get output message
+out_mess = chrome_driver.find_element_by_id("display")
+print(out_mess.text)
+# Output: Hello World!
+assert MESS in out_mess.text
+chrome_driver.close()
+# chrome_driver.quit() # Or
+```
+
+# Section 21: Machine Learning + Data Science
+## Common steps
+1. Import data
+2. Clean data
+3. Split data: Training set/Test set
+4. Create a Model
+5. Check the output
+6. Improve
+
+## Library for data processing
+* Numpy : array / matrix... handling
+* Pandas : handle data
+* Scikit-learn : built-model https://scikit-learn.org/stable/
+* visualyze data (VERY GOOD AT VISUALYZE DATA)
+  * Matplotlib
+  * bokeh: https://docs.bokeh.org/en/latest/index.html
+  * seaborn: https://seaborn.pydata.org
+
+## Tools
+* Kaggle: big website for improve / check model and more
+* Jupyter notebook: IDE for executing python script 
+
+* Save and load trained model by using Joblib module
+```
+Quick Note: Joblib Update
+
+Heads up! In the next video you are going to see me import something called joblib like this:
+
+from sklearn.externals import joblib
+
+in the latest version of sklearn, you no longer need to do it like the above and can instead do this:
+
+from joblib import dump, load
+
+You will see in the next video where we do this, but I have also attached the documentation reference to the next video so you can read about it yourself. Let's get to it!
+```
+```python
+>>> from joblib import dump, load
+>>> dump(<model: ex knn_model>, '<model>.joblib')
+>>> clf = load('<model>.joblib') 
+```
+
+Tensorflow
+The below script is what I will show you in the next video (but the code below has a few modifications in case you have the latest version of TensorFlow and not the version I show you in the coming video). You can always copy and paste this as a reference while you code along in the next video. (Thanks to Ben our Star Mentor for the code!)
+```python
+import numpy as np
+import tensorflow as tf
+  
+# from tensorflow.keras.applications.resnet50 import (
+#     ResNet50,
+#     decode_predictions,
+#     preprocess_input,
+# )
+  
+from tensorflow.keras.applications.efficientnet_v2 import (
+    EfficientNetV2L,
+    decode_predictions,
+)
+  
+image = tf.keras.preprocessing.image.load_img("./giraffe.jpg")
+input_arr = tf.keras.preprocessing.image.img_to_array(image)
+  
+# If using ResNet50, use this line:
+# input_arr = tf.image.resize(input_arr, (224, 224))
+  
+# If using EfficientNetV2L, use this line:
+input_arr = tf.image.resize(input_arr, (480, 480))
+  
+input_arr = np.array([input_arr])
+  
+# model = ResNet50()
+model = EfficientNetV2L()
+  
+predictions = decode_predictions(model.predict(input_arr))
+  
+for _, label, prob in predictions[0]:
+    print(f"{label}: {prob}")
+```
+Image recognize AI \
+Supper tool for image detection 
+https://github.com/OlafenwaMoses/ImageAI
+
+# Section 22: Where to go from here?
+* Cheat Sheet:
+https://zerotomastery.io/cheatsheets/python-cheat-sheet/?utm_source=udemy&utm_medium=coursecontent
+
+# Section 23: Extra Bits
+## CWD: Git + Github
+Github Update: Master --> Main \
+Heads up! In the next video we are going to be speaking about Github and branching. Recently Github has decided to rename the original branch from master to main . If you want to find out the reason why they did this, you can read about it here (main is less offensive than master).
+
+For this reason, for any new Github repositories created from now on (old ones will stay the same with master as the main branch), you will have to use main instead of master. So anytime you see me use master, simply replace it with main in the next video!
+
+For example if you see a command like: \
+<code>$ git push origin master</code> \
+it should now be: \
+<code>$ git push origin main</code>
+
+* Github guideline: https://github.com/zero-to-mastery/start-here-guidelines
+* Contribute: https://github.com/zero-to-mastery
