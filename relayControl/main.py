@@ -1,13 +1,5 @@
-# D:\HIEU\PYTHON_WORLD\relayControl\Scripts> .\qt5-tools.exe designer
+# .\relayControl\Scripts> .\qt5-tools.exe designer
 # .\Scripts\pyuic5.exe -o main_window_ui.py relay_control.ui
-
-ICON_RED_LED = "./assets/icon/led-red.png"
-ICON_GREEN_LED = "./assets/icon/green-led.png"
-
-# The icon can activated like this:
-# self.ui.labelStatusFan1.setPixmap(QtGui.QPixmap(ICON_RED_LED))
-# Also, by using signals, the icon can be activated based on some condition:
-# self.pixmap_signal_fan1.emit(ICON_RED_LED if fans_rpm[0] == 0 or fans_voltage[0] == 0 else ICON_GREEN_LED)
 
 import os
 import sys
@@ -25,7 +17,7 @@ from relay_lib import Relay
 class Window(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(823, 705)
+        self.setFixedSize(486, 715)
         self.setupUi(self)
         self.loadRelayLabel()
         self.connectSignalsSlots()
@@ -75,43 +67,55 @@ class Window(QMainWindow, Ui_MainWindow):
     def VBUSStateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectVBUS()
+            self.lblNum1.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectVBUS()
+            self.lblNum1.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
     
     def WD_OFFStateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectWD_OFF()
+            self.lblNum3.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectWD_OFF()
+            self.lblNum3.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
     
     def MOD_0StateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectMOD_0()
+            self.lblNum4.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectMOD_0()
+            self.lblNum4.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
     
     def IGNStateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectIGN()
+            self.lblNum6.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectIGN()
+            self.lblNum6.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
     
     def ACCStateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectACC()
+            self.lblNum7.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectACC()
+            self.lblNum7.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
     
     def BATStateChanged(self, state):
         if state == QtCore.Qt.Checked:
             self.myRelay.connectBAT()
+            self.lblNum8.setStyleSheet("color: rgb(255, 0, 0);")
         else:
             self.myRelay.disconnectBAT()
+            self.lblNum8.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateState()
 
     def updateState(self):
@@ -126,7 +130,6 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cb6.setChecked(False)
         self.cb7.setChecked(False)
         self.cb8.setChecked(False)
-        self.log("Reset all pins to unchecked status")
 
     def checkedNone(self):
         self.clearAllRelayPins()
@@ -135,32 +138,33 @@ class Window(QMainWindow, Ui_MainWindow):
     def checkedNormalMode(self):
         # BAT:8, ACC:7, IGN:6, WD_OFF:3 on
         self.clearAllRelayPins()
+        self.log("Switch to Normal mode")
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
         self.cb6.setChecked(True)
         self.cb3.setChecked(True)
-        self.log("Switch to Normal mode")
     
     def checkedAurixMode(self):
         # VBUS:1, BAT:8, ACC:7, IGN:6 on
         self.clearAllRelayPins()
+        self.log("Switch to Aurix flashing mode")
         self.cb1.setChecked(True)
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
         self.cb6.setChecked(True)
-        self.log("Switch to Aurix flashing mode")
     
     def checkedAndroidMode(self):
         # BAT:8, ACC:7, IGN:6, WD_OFF:3, MOD_0:4 on
         self.clearAllRelayPins()
+        self.log("Switch to Android flashing mode")
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
         self.cb6.setChecked(True)
         self.cb3.setChecked(True)
         self.cb4.setChecked(True)
-        self.log("Switch to Android flashing mode")
 
     def restartTarget(self):
+        self.log("Restart the target!")
         self.myRelay.turnOffAllRelay()
         self.clearAllRelayPins()
         self.myRelay.connectBAT()
@@ -172,11 +176,13 @@ class Window(QMainWindow, Ui_MainWindow):
         self.updateState()
     
     def turnOffTarget(self):
+        self.log("Turn off the target!")
         self.myRelay.turnOffAllRelay()
         self.clearAllRelayPins()
         self.updateState()
     
     def turnOnACC_IGN(self):
+        self.log("Turn on ACC + IGN!")
         self.myRelay.connectACC()
         self.cb7.setChecked(True)
         self.myRelay.connectIGN()
@@ -186,7 +192,6 @@ class Window(QMainWindow, Ui_MainWindow):
     def log(self, message):
         self.txtLog.appendPlainText(message)
         
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     win = Window()
@@ -194,7 +199,7 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 
 
-
+# ===================================================
 # from functools import partial
 
 # def calluser(name):
@@ -206,4 +211,10 @@ if __name__ == "__main__":
 #     button.setGeometry(100,100, 60, 35)
 #     button.clicked.connect(partial(calluser,name))
 
+ICON_RED_LED = "./assets/icon/led-red.png"
+ICON_GREEN_LED = "./assets/icon/green-led.png"
 
+# The icon can activated like this:
+# self.ui.labelStatusFan1.setPixmap(QtGui.QPixmap(ICON_RED_LED))
+# Also, by using signals, the icon can be activated based on some condition:
+# self.pixmap_signal_fan1.emit(ICON_RED_LED if fans_rpm[0] == 0 or fans_voltage[0] == 0 else ICON_GREEN_LED)
