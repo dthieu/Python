@@ -21,29 +21,39 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>10</x>
       <y>10</y>
-      <width>401</width>
+      <width>801</width>
       <height>42</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>CCS2 target Relay Control</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>70</y>
-      <width>781</width>
+      <width>801</width>
       <height>581</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -56,14 +66,15 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>222</width>
-       <height>122</height>
+       <width>251</width>
+       <height>151</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <weight>50</weight>
-       <bold>false</bold>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="title">
@@ -84,13 +95,34 @@
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="font">
+          <font>
+           <family>Arial Black</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
           <string>232</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rbNone">
+        <property name="text">
+         <string>None</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -119,29 +151,51 @@
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>100</y>
-       <width>141</width>
-       <height>230</height>
+       <x>270</x>
+       <y>90</y>
+       <width>201</width>
+       <height>251</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="title">
       <string>Common Functions</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item row="0" column="0">
        <widget class="QPushButton" name="btnTargetOff">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: red;
 color: white</string>
         </property>
         <property name="text">
-         <string>Turn Target OFF</string>
+         <string>Target OFF</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="1">
        <widget class="QPushButton" name="btnTargetRestart">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: green;
 color: white</string>
@@ -151,43 +205,118 @@ color: white</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="btnBatOn">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(85, 255, 127);</string>
+        </property>
+        <property name="text">
+         <string>BAT ON</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="btnBatOff">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #A3C1DA</string>
+        </property>
+        <property name="text">
+         <string>BAT OFF</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="btnACCOn">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(85, 255, 127);</string>
+        </property>
+        <property name="text">
+         <string>ACC ON</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="btnIGNOff">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #A3C1DA</string>
+        </property>
+        <property name="text">
+         <string>IGN OFF</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="btnACCOff">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #A3C1DA</string>
+        </property>
+        <property name="text">
+         <string>ACC OFF</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="btnIGNOn">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(85, 255, 127);</string>
+        </property>
+        <property name="text">
+         <string>IGN ON</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QPushButton" name="btnACC_IGN_on">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">background-color: #A3C1DA</string>
+         <string notr="true">background-color: rgb(85, 255, 127);</string>
         </property>
         <property name="text">
-         <string>Turn ACC + IGN ON</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btnIGNon">
-        <property name="styleSheet">
-         <string notr="true">background-color: #A3C1DA</string>
-        </property>
-        <property name="text">
-         <string>Turn IGN ON</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btnBaton">
-        <property name="styleSheet">
-         <string notr="true">background-color: #A3C1DA</string>
-        </property>
-        <property name="text">
-         <string>Turn BAT ON</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btnACCon">
-        <property name="styleSheet">
-         <string notr="true">background-color: #A3C1DA</string>
-        </property>
-        <property name="text">
-         <string>Turn ACC ON</string>
+         <string>ACC IGN ON</string>
         </property>
        </widget>
       </item>
@@ -197,10 +326,17 @@ color: white</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>173</y>
        <width>251</width>
        <height>171</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="title">
       <string>Relay PINS</string>
@@ -210,8 +346,8 @@ color: white</string>
        <rect>
         <x>60</x>
         <y>20</y>
-        <width>31</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -219,6 +355,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum7">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -249,8 +386,8 @@ color: white</string>
        <rect>
         <x>120</x>
         <y>20</y>
-        <width>31</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -258,6 +395,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum6">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -288,8 +426,8 @@ color: white</string>
        <rect>
         <x>190</x>
         <y>20</y>
-        <width>39</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -297,6 +435,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum5">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -330,8 +469,8 @@ color: white</string>
        <rect>
         <x>190</x>
         <y>100</y>
-        <width>41</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -339,8 +478,9 @@ color: white</string>
         <widget class="QLabel" name="label_21">
          <property name="font">
           <font>
-           <weight>50</weight>
-           <bold>false</bold>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -359,6 +499,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum4">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -375,8 +516,8 @@ color: white</string>
        <rect>
         <x>120</x>
         <y>100</y>
-        <width>48</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -398,6 +539,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum3">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -414,8 +556,8 @@ color: white</string>
        <rect>
         <x>60</x>
         <y>100</y>
-        <width>39</width>
-        <height>53</height>
+        <width>51</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -437,6 +579,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum2">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -451,10 +594,10 @@ color: white</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>12</x>
+        <x>10</x>
         <y>100</y>
-        <width>31</width>
-        <height>53</height>
+        <width>41</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -476,6 +619,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum1">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -487,13 +631,13 @@ color: white</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>34</width>
-        <height>53</height>
+        <width>41</width>
+        <height>54</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -501,6 +645,7 @@ color: white</string>
         <widget class="QLabel" name="lblNum8">
          <property name="font">
           <font>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -530,11 +675,18 @@ color: white</string>
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>480</x>
        <y>10</y>
-       <width>331</width>
-       <height>321</height>
+       <width>321</width>
+       <height>331</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="title">
       <string>Debug board</string>
@@ -543,16 +695,19 @@ color: white</string>
     <widget class="QLCDNumber" name="lcdBinState">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>30</y>
-       <width>141</width>
-       <height>31</height>
+       <x>270</x>
+       <y>20</y>
+       <width>201</width>
+       <height>40</height>
       </rect>
      </property>
      <property name="font">
       <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
        <weight>75</weight>
        <bold>true</bold>
+       <kerning>true</kerning>
       </font>
      </property>
      <property name="autoFillBackground">
@@ -578,18 +733,26 @@ color: blue</string>
       <double>0.000000000000000</double>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>351</y>
-       <width>761</width>
+       <width>791</width>
        <height>221</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
        <widget class="QLabel" name="label_7">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+          <underline>true</underline>
+         </font>
+        </property>
         <property name="text">
          <string>Log:</string>
         </property>
