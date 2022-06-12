@@ -52,15 +52,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def connectButtons(self):
         self.btnTargetOff.clicked.connect(self.turnOffTarget)
         self.btnTargetRestart.clicked.connect(self.restartTarget)
-
-        self.btnBatOn.clicked.connect(self.turnOnBAT)
-        self.btnACCOn.clicked.connect(self.turnOnACC)
-        self.btnIGNOn.clicked.connect(self.turnOnIGN)
         self.btnACC_IGN_on.clicked.connect(self.turnOnACC_IGN)
-        
-        self.btnBatOff.clicked.connect(self.turnOffBAT)
-        self.btnACCOff.clicked.connect(self.turnOffACC)
-        self.btnIGNOff.clicked.connect(self.turnOffIGN)
 
     def connectRelayPins(self):
         self.cb1.stateChanged.connect(self.VBUSStateChanged)
@@ -182,36 +174,6 @@ class Window(QMainWindow, Ui_MainWindow):
     def turnOffTarget(self):
         self.myRelay.turnOffAllRelay()
         self.clearAllRelayPins()
-        self.updateState()
-    
-    def turnOnBAT(self):
-        self.myRelay.connectBAT()
-        self.cb8.setChecked(True)
-        self.updateState()
-    
-    def turnOnACC(self):
-        self.myRelay.connectACC()
-        self.cb7.setChecked(True)
-        self.updateState()
-    
-    def turnOnIGN(self):
-        self.myRelay.connectIGN()
-        self.cb6.setChecked(True)
-        self.updateState()
-    
-    def turnOffBAT(self):
-        self.myRelay.disconnectBAT()
-        self.cb8.setChecked(False)
-        self.updateState()
-    
-    def turnOffACC(self):
-        self.myRelay.disconnectACC()
-        self.cb7.setChecked(False)
-        self.updateState()
-    
-    def turnOffIGN(self):
-        self.myRelay.disconnectIGN()
-        self.cb6.setChecked(False)
         self.updateState()
     
     def turnOnACC_IGN(self):
