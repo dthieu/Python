@@ -1,27 +1,28 @@
 # .\relayControl\Scripts> .\qt5-tools.exe designer
 # .\Scripts\pyuic5.exe -o main_window_ui.py relay_control.ui
 
-import os
 import sys
 from turtle import update
 from PyQt5.QtWidgets import (
-    QApplication, QDialog, QMainWindow, QMessageBox
+    QApplication, QMainWindow
 )
 from PyQt5 import QtCore
 from PyQt5.uic import loadUi
 from main_window_ui import Ui_MainWindow
 from functools import partial
 from relay_lib import Relay
+from multiplexer_lib import Multiplexer
 
 
 class Window(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(486, 715)
+        self.setFixedSize(485, 705)
         self.setupUi(self)
         self.loadRelayLabel()
         self.connectSignalsSlots()
         self.myRelay = Relay()
+        self.myMUX = Multiplexer()
         self.txtCurrentState.setText(str(self.myRelay.curr_state))
 
     def loadRelayLabel(self):
@@ -34,14 +35,18 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def connectSignalsSlots(self):
         self.txtCurrentState.textChanged.connect(self.updateCurrentState)
+        self.connectCommonMode()
+        self.connectCommonFunc()
+        self.connectRelayPins()
+        self.connectMUXMode()
+
+    def connectCommonMode(self):
         self.rbNone.toggled.connect(self.checkedNone)
         self.rbNormalMode.toggled.connect(self.checkedNormalMode)
         self.rbAurixMode.toggled.connect(self.checkedAurixMode)
         self.rbAndroidMode.toggled.connect(self.checkedAndroidMode)
-        self.connectButtons()
-        self.connectRelayPins()
-
-    def connectButtons(self):
+    
+    def connectCommonFunc(self):
         self.btnTargetOff.clicked.connect(self.turnOffTarget)
         self.btnTargetRestart.clicked.connect(self.restartTarget)
         self.btnACC_IGN_on.clicked.connect(self.turnOnACC_IGN)
@@ -53,6 +58,18 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cb6.stateChanged.connect(self.IGNStateChanged)
         self.cb7.stateChanged.connect(self.ACCStateChanged)
         self.cb8.stateChanged.connect(self.BATStateChanged)
+
+    def connectMUXMode(self):
+        self.rbMUXNormalMode.toggled.connect(self.checkedMUXNormalMode)
+        self.rbMUXDLTMode.toggled.connect(self.checkedMUXDLTMode)
+
+    def checkedMUXNormalMode(self):
+        self.myMUX.switch_to_normal_mode()
+        self.log("[Multiplexer] Switch to normal mode")
+
+    def checkedMUXDLTMode(self):
+        self.myMUX.swith_to_DLT_mode()
+        self.log("[Multiplexer] Switch to DLT mode")
 
     def updateCurrentState(self):
         try:
@@ -133,12 +150,12 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def checkedNone(self):
         self.clearAllRelayPins()
-        self.log("None!")
+        self.log("[Relay] None")
 
     def checkedNormalMode(self):
         # BAT:8, ACC:7, IGN:6, WD_OFF:3 on
         self.clearAllRelayPins()
-        self.log("Switch to Normal mode")
+        self.log("[Relay] Switch to Normal mode")
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
         self.cb6.setChecked(True)
@@ -147,7 +164,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def checkedAurixMode(self):
         # VBUS:1, BAT:8, ACC:7, IGN:6 on
         self.clearAllRelayPins()
-        self.log("Switch to Aurix flashing mode")
+        self.log("[Relay] Switch to Aurix flashing mode")
         self.cb1.setChecked(True)
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
@@ -156,7 +173,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def checkedAndroidMode(self):
         # BAT:8, ACC:7, IGN:6, WD_OFF:3, MOD_0:4 on
         self.clearAllRelayPins()
-        self.log("Switch to Android flashing mode")
+        self.log("[Relay] Switch to Android flashing mode")
         self.cb8.setChecked(True)
         self.cb7.setChecked(True)
         self.cb6.setChecked(True)
@@ -164,7 +181,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cb4.setChecked(True)
 
     def restartTarget(self):
-        self.log("Restart the target!")
+        self.log("[Relay] Restart the target!")
         self.myRelay.turnOffAllRelay()
         self.clearAllRelayPins()
         self.myRelay.connectBAT()
@@ -176,13 +193,13 @@ class Window(QMainWindow, Ui_MainWindow):
         self.updateState()
     
     def turnOffTarget(self):
-        self.log("Turn off the target!")
+        self.log("[Relay] Turn off the target!")
         self.myRelay.turnOffAllRelay()
         self.clearAllRelayPins()
         self.updateState()
     
     def turnOnACC_IGN(self):
-        self.log("Turn on ACC + IGN!")
+        self.log("[Relay] Turn on ACC + IGN!")
         self.myRelay.connectACC()
         self.cb7.setChecked(True)
         self.myRelay.connectIGN()
