@@ -31,8 +31,30 @@ def download(url, filename):
 
 download(url, file_path)
 
+def download_file(url, filename=None):
+    """Download the file at url and store it at filename."""
+    basename = os.path.basename(filename or url)
+    msg = """Downloading {dest} (from {source})""".format(source=url,
+                                                          dest=basename)
+    #sys.stdout.write(str(colored.blue(msg, bold=True)))
+    sys.stdout.write("\n")
+    request = requests.get(url, stream=True)
+    length = request.headers.get("content-length")
+    
+    with open(filename or os.path.basename(url), "wb") as downloaded_file:
+        chunk_size = 1024
+        length = int(length or 0)
+        total = length / chunk_size + 1
+        for chunk in progress.bar(request.iter_content(chunk_size=chunk_size),
+                                  expected_size=total,
+                                  label=basename):
+            downloaded_file.write(chunk)
+            downloaded_file.flush()
 
+    return os.path.join(os.getcwd(), downloaded_file.name)
 
+download_file(url, file_path)
+# master.zip[################################] 32787/32787 - 00:00:05
 
 
 
