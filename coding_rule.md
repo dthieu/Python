@@ -2,22 +2,26 @@ Rules
 Coding Conventions
 1.	Naming Conventions
   o	Variables and Functions: Use snake_case (e.g., process_suite_metadata, get_from_tags).
+
   o	Classes: Use PascalCase (e.g., Logger, CRQMClient).
+  
   o	Constants: Use all uppercase letters with underscores (e.g., DEFAULT_METADATA, DRESULT_MAPPING).
-2.	Indentation
+3.	Indentation
   o	Consistent use of 4 spaces per indentation level.
+  
   o	No tabs are used.
-3.	Imports
+4.	Imports
   o	Standard library imports are listed first, followed by third-party and then local imports.
+  
   o	Imports are grouped and separated by blank lines.
-4.	Whitespace
+5.	Whitespace
   o	Spaces after commas and around operators.
   o	No trailing whitespace at the end of lines.
   o	Blank lines separate logical sections of code.
-5.	Error Handling
+6.	Error Handling
   o	Use of try...except blocks for exception handling.
   o	Custom error and warning logging via the Logger class.
-6.	File Structure
+7.	File Structure
   o	Copyright and license information at the top.
   o	Main execution guarded by if __name__ == "__main__":.
 
